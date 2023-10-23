@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { StyleSheet, Alert, View, Image, Text } from 'react-native';
 
-import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from 'expo-location'
+import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from 'expo-location';
 
 import { Colors } from '../../constants/colors';
 import OutlinedButton from '../UI/OutlinedButton';
+
+import { useNavigation } from '@react-navigation/native';
+
 import { getMapPreview } from '../../util/location';
 
 const LocationPicker = () => {
+
+    const navigation = useNavigation();
 
     const [pickedLocation, setPickedLocation] = useState();
 
@@ -46,7 +51,9 @@ const LocationPicker = () => {
         });
     }
 
-    function pickOnMapHandler() { }
+    function pickOnMapHandler() {
+        navigation.navigate('Map')
+    }
 
     let locationPreview = <Text>No Location Picked Yet.</Text>
 
