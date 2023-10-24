@@ -10,7 +10,7 @@ import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native'
 
 import { getMapPreview } from '../../util/location';
 
-const LocationPicker = () => {
+const LocationPicker = ({ onPickLocation }) => {
 
     const navigation = useNavigation();
     const route = useRoute();
@@ -32,11 +32,15 @@ const LocationPicker = () => {
 
     }, [route, isFocused]);
 
+    useEffect(() => {
+        onPickLocation(pickedLocation);
+    }, [pickedLocation, onPickLocation]);
+
     async function verifyPermissions() {
         if (locationPermissionInformation.status === PermissionStatus.UNDETERMINED) {
             const permissionResponse = await requestPermission();
 
-            return permissionResponse.granted;   // True or False - True if camera access is granted
+            return permissionResponse.granted;   // True or False - True if location access is granted
         }
 
         if (locationPermissionInformation.status === PermissionStatus.DENIED) {
