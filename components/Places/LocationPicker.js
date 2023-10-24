@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Alert, View, Image, Text } from 'react-native';
 
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from 'expo-location';
@@ -6,17 +6,31 @@ import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } f
 import { Colors } from '../../constants/colors';
 import OutlinedButton from '../UI/OutlinedButton';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 
 import { getMapPreview } from '../../util/location';
 
 const LocationPicker = () => {
 
     const navigation = useNavigation();
+    const route = useRoute();
+    const isFocused = useIsFocused();   //true when this component in main screen on device otherwise it is false
 
     const [pickedLocation, setPickedLocation] = useState();
 
     const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
+
+    useEffect(() => {
+
+        if (isFocused && route.params) {
+            const mapPickedLocation = {
+                lat: route.params.pickedLat,
+                lng: route.params.pickedLng
+            };
+            setPickedLocation(mapPickedLocation);
+        };
+
+    }, [route, isFocused]);
 
     async function verifyPermissions() {
         if (locationPermissionInformation.status === PermissionStatus.UNDETERMINED) {
