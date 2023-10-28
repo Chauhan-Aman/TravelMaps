@@ -7,9 +7,7 @@ const AddPlace = ({ navigation }) => {
 
         await insertPlace(place);
 
-        navigation.navigate('AllPlaces', {
-            place: place,
-        });
+        navigation.navigate('AllPlaces');
     }
 
     return (
