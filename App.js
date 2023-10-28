@@ -18,12 +18,16 @@ export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);
 
   useEffect(() => {
-    init().then(() => {
-      setDbInitialized(true);
-    });
+    init()
+      .then(() => {
+        setDbInitialized(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  if(!dbInitialized){
+  if (!dbInitialized) {
     return <AppLoading />
   }
 

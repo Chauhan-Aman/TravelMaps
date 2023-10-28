@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
-
 import PlaceForm from '../components/Places/PlaceForm';
+import { insertPlace } from '../util/database';
 
 const AddPlace = ({ navigation }) => {
 
-    function createPlaceHandler(place) {
+    async function createPlaceHandler(place) {
+
+        await insertPlace(place);
+
         navigation.navigate('AllPlaces', {
             place: place,
         });
@@ -16,5 +18,3 @@ const AddPlace = ({ navigation }) => {
 }
 
 export default AddPlace;
-
-const styles = StyleSheet.create({})
